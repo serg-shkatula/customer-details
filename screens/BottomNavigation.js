@@ -1,9 +1,10 @@
-import React, { Component, useEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Text, View, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, SafeAreaView, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { colors, unit } from '../styles';
 import { screenNames } from '../navigation';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { navigate } from '../state/actions';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -46,11 +47,13 @@ const IconButton = ({style, name, size = unit, selected, onPress}) => (
   </TouchableOpacity>
 );
 
-export default function BottomNavigation ({navigation, activeName: propActiveName}) {
-  const [activeName, setActiveName] = useState(propActiveName);
+function BottomNavigation () {
+  const dispatch = useDispatch();
+  const currentScreen = useSelector(state => state.navigation.currentScreen);
+  const [activeName, setActiveName] = useState(currentScreen);
   useEffect(() => {
     if (activeName) {
-      navigation?.current?.navigate(activeName);
+      dispatch(navigate(activeName));
     }
   }, [activeName]);
   return (
@@ -73,3 +76,5 @@ export default function BottomNavigation ({navigation, activeName: propActiveNam
     </SafeAreaView>
   );
 }
+
+export default BottomNavigation;

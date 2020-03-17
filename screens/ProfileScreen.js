@@ -1,44 +1,66 @@
-import React, { Component } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import { fetchUiTemplate } from '../api';
-import { unit } from '../styles';
+import { colors, unit } from '../styles';
 import DataItem from './DataItem';
+import { Fade } from './ProfileUI';
+import { connect, useSelector } from 'react-redux';
 
 const styles = StyleSheet.create({
   scrollView: {
-    minHeight: '100%',
-    backgroundColor: 'white',
+    backgroundColor: colors.WHITE,
   },
   scrollViewContainer: {
-    flex: 1,
-
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    //
+  },
+  item: {
+    marginBottom: unit,
   },
   body: {
     padding: unit,
+    paddingBottom: unit * 3,
   },
   title: {
     fontSize: 40,
   },
 });
 
-const uiTemplate = fetchUiTemplate('profile');//TODO: fetch data
+const uiTemplate = fetchUiTemplate('profile');//TODO: handle globally
 
-export default function ProfileScreen ({navigation}) {
+function ProfileScreen () {
+  const userData = useSelector(state => state.user.data);
+  console.log('ProfileScreen.ProfileScreen, ~ Line 31: userData >', userData);
+  if (!userData) {
+    return <Text>Fetching...</Text>;
+  }
+  const [editingKey, setEditingKey] = useState(undefined);
   return (
-    <SafeAreaView>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollViewContainer}
-      >
-        <View style={styles.body}>
-          {Object.keys(uiTemplate).map((key) => (
-            <DataItem template={uiTemplate[key]}/>
-          ))}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ScrollView style={styles.scrollView}>
+      <View style={styles.body}>
+        {Object.keys(uiTemplate).map((key) => {
+          const beingEdited = editingKey === key;
+          return (
+            <DataItem
+              key={key}
+              itemKey={key}
+              style={styles.item}
+              template={uiTemplate[key]}
+              value={userData[key]}
+              onEdit={setEditingKey}
+              onEditCancel={() => {
+                setEditingKey(undefined);
+              }}
+              onEditConfirm={() => {
+                setEditingKey(undefined);
+              }}
+              editMode={beingEdited}
+            />
+          );
+        })}
+        {editingKey && <Fade/>}
+      </View>
+    </ScrollView>
   );
 };
+
+export default ProfileScreen
