@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { colors, unit } from '../styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import DataItem from './DataItem';
 
 const shadowStyle = {
   shadowColor: colors.BLACK,
@@ -87,14 +88,14 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: colors.BLACK_90,
+    backgroundColor: colors.BLACK_80,
   },
   actionButtons: {
     padding: unit,
     flexDirection: 'row',
     position: 'absolute',
     width: '100%',
-    top: '100%',
+    bottom: -unit * 3,
   },
 });
 
@@ -123,24 +124,46 @@ export const Fade = ({onPress}) => (
   <TouchableWithoutFeedback onPress={onPress} style={styles.fade}><View style={styles.fade}/></TouchableWithoutFeedback>
 );
 
-export const StringItem = (
-  {
+export const StringItem = (props) => {
+  const {
     style,
     itemKey,
     name,
     type,
     value,
     placeholder,
+    children,
     editable,
     multiline,
+    noActionButtons,
     secureTextEntry,
     editMode,
     onEdit,
     onEditCancel,
     onEditConfirm,
-  },
-) => {
+  } = props;
+
   const [inputRef, setInputRef] = useState(undefined);
+
+  if (editMode && children) {
+    return (
+      <View style={[{zIndex: 10}]}>
+        {Object.keys(children).map(key => (
+          <DataItem
+            key={key}
+            {...props}
+            style={style}
+            editMode
+            noActionButtons
+            template={children[key]}
+            value={value[key]}
+          />
+        ))}
+        <ActionButtons onCancelPress={onEditCancel} onConfirmPress={onEditConfirm}/>
+      </View>
+    );
+  }
+
   return (
     <TouchableOpacity
       style={[style, editMode && {zIndex: 5}]}
@@ -150,14 +173,14 @@ export const StringItem = (
         onEdit(itemKey);
       }}
     >
-      {value && <Text style={styles.itemCaption}>{name}</Text>}
+      {!!value && <Text style={styles.itemCaption}>{name}</Text>}
       <View style={[styles.itemPlaceholder, editMode && styles.itemEditPlaceholder]}>
         <TextInput
           keyboardType={keyboardTypeByItemType[type]}
           ref={(ref) => setInputRef(ref)}
           multiline={multiline}
           secureTextEntry={secureTextEntry}
-          editable={editable}
+          editable={editable && !children}
           onFocus={() => onEdit(itemKey)}
           style={[!value && styles.itemTextFaded, styles.itemText]}
         >
@@ -165,7 +188,7 @@ export const StringItem = (
         </TextInput>
         {editable && !editMode && <EditIcon/>}
       </View>
-      {editMode && (
+      {!noActionButtons && editMode && (
         <ActionButtons onCancelPress={onEditCancel} onConfirmPress={onEditConfirm}/>
       )}
     </TouchableOpacity>
@@ -178,23 +201,27 @@ export const PasswordItem = (props) => {
   );
 };
 
-export const AddressItem = ({value, ...props}) => {
-  let addressText = '';
-  const composition = [
-    '',
-    'line1', '\n',
-    'line2', '\n',
-    'postcode', ' ', 'city', '\n',
-    'country'
-  ];
-  for (let i = 1; i < composition.length; i += 2) {
-    value[composition[i]] && (addressText += composition[i - 1] + value[composition[i]]);
+export const AddressItem = ({value, editMode, ...props}) => {
+  let resultingValue = value;
+  if (!editMode) {
+    resultingValue = '';
+    const composition = [
+      '',
+      'line1', '\n',
+      'line2', '\n',
+      'postcode', ' ', 'city', '\n',
+      'country',
+    ];
+    for (let i = 1; i < composition.length; i += 2) {
+      value[composition[i]] && (resultingValue += composition[i - 1] + value[composition[i]]);
+    }
   }
   return (
     <StringItem
       {...props}
+      editMode={editMode}
       multiline
-      value={addressText}
+      value={resultingValue}
     />
   );
 };

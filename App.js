@@ -1,11 +1,11 @@
 import React from 'react';
-import { KeyboardAvoidingView, StatusBar } from 'react-native';
+import { KeyboardAvoidingView, StatusBar, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import NewsScreen from './screens/NewsScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import Header from './screens/Header';
-import BottomNavigation from './screens/BottomNavigation';
+import Header from './components/Header';
+import BottomNavigation from './components/BottomNavigation';
 import { screenNames } from './navigation';
 import StatsScreen from './screens/StatsScreen';
 import { Provider } from 'react-redux';

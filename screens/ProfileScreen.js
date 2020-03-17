@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import { fetchUiTemplate } from '../api';
 import { colors, unit } from '../styles';
-import DataItem from './DataItem';
-import { Fade } from './ProfileUI';
+import DataItem from '../components/DataItem';
+import { Fade } from '../components/ProfileUI';
 import { connect, useSelector } from 'react-redux';
 
 const styles = StyleSheet.create({

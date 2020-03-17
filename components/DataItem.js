@@ -14,6 +14,7 @@ export default function DataItem (
     itemKey,
     editMode,
     template,
+    noActionButtons,
     value,
     onEdit,
     onEditCancel,
@@ -30,6 +31,7 @@ export default function DataItem (
       editMode={editMode}
       value={value}
       itemKey={itemKey}
+      noActionButtons={noActionButtons}
       onEdit={onEdit}
       onEditCancel={onEditCancel}
       onEditConfirm={onEditConfirm}
