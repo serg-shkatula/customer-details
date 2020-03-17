@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ProfileScreen ({navigation}) {
+export default function StatsScreen ({navigation}) {
   return (
     <SafeAreaView>
       <ScrollView
@@ -28,7 +28,7 @@ export default function ProfileScreen ({navigation}) {
         contentContainerStyle={styles.scrollViewContainer}
       >
         <View style={styles.body}>
-          <Text style={styles.title}>Profile</Text>
+          <Text style={styles.title}>Stats</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

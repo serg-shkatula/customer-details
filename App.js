@@ -1,26 +1,40 @@
-import React from 'react';
-import {
-  StatusBar,
-} from 'react-native';
+import React, { useState } from 'react';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './screens/HomeScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+import NewsScreen from './screens/NewsScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import Header from './screens/Header';
+import BottomNavigation from './screens/BottomNavigation';
+import { screenNames } from './navigation';
+import StatsScreen from './screens/StatsScreen';
 
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content"/>
-      <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Profile" component={ProfileScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </>
-  );
+export default class App extends React.Component {
+  constructor (props) {
+    super(props);
+    this._navigation = React.createRef()
+  }
+
+  render() {
+    return (
+      <>
+        <StatusBar barStyle="dark-content"/>
+        <Header/>
+        <NavigationContainer ref={this._navigation}>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name={screenNames.NEWS} component={NewsScreen}/>
+            <Stack.Screen name={screenNames.STATS} component={StatsScreen}/>
+            <Stack.Screen name={screenNames.PROFILE} component={ProfileScreen}/>
+          </Stack.Navigator>
+          <BottomNavigation navigation={this._navigation} activeName={screenNames.NEWS}/>
+        </NavigationContainer>
+      </>
+    );
+  }
 };
-
-export default App;

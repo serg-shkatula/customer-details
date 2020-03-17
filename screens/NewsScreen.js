@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ProfileScreen ({navigation}) {
+export default function NewsScreen ({navigation}) {
   return (
     <SafeAreaView>
       <ScrollView
@@ -28,7 +28,7 @@ export default function ProfileScreen ({navigation}) {
         contentContainerStyle={styles.scrollViewContainer}
       >
         <View style={styles.body}>
-          <Text style={styles.title}>Profile</Text>
+          <Text style={styles.title}>News</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
