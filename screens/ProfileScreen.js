@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { fetchUiTemplate } from '../api';
+import { unit } from '../styles';
+import DataItem from './DataItem';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -8,16 +11,19 @@ const styles = StyleSheet.create({
   },
   scrollViewContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   body: {
-    //
+    padding: unit,
   },
   title: {
     fontSize: 40,
   },
 });
+
+const uiTemplate = fetchUiTemplate('profile');//TODO: fetch data
 
 export default function ProfileScreen ({navigation}) {
   return (
@@ -28,7 +34,9 @@ export default function ProfileScreen ({navigation}) {
         contentContainerStyle={styles.scrollViewContainer}
       >
         <View style={styles.body}>
-          <Text style={styles.title}>Profile</Text>
+          {Object.keys(uiTemplate).map((key) => (
+            <DataItem template={uiTemplate[key]}/>
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
