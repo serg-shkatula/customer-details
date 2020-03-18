@@ -92,10 +92,11 @@ const styles = StyleSheet.create({
   },
   actionButtons: {
     padding: unit,
+    paddingBottom: 0,
     flexDirection: 'row',
-    position: 'absolute',
+    // position: 'absolute',
     width: '100%',
-    bottom: -unit * 3,
+    // bottom: -unit * 3,
   },
 });
 
