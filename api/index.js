@@ -121,8 +121,8 @@ const _uiTemplatesById = {
         },
         confirmNewPassword: {
           type: 'password',
-          name: 'Confirm',
-          placeholder: 'Confirm',
+          name: 'Retype',
+          placeholder: 'Retype',
           validationPattern: '',
           isRequired: true,
           editable: true,
