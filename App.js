@@ -13,11 +13,11 @@ import thunk from 'redux-thunk';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 
 const Stack = createStackNavigator();
-import { navigation, user } from './state/reducers';
+import { navigation, data, user } from './state/reducers';
 import { fetchUserData, initNavigation } from './state/actions';
 
 const store = createStore(
-  combineReducers({navigation, user}),
+  combineReducers({navigation, data, user}),
   {navigation: {currentScreen: screenNames.NEWS}},
   applyMiddleware(thunk),
 );
@@ -30,7 +30,7 @@ export default class App extends React.Component {
 
   render () {
     return (
-      <View style={{height: '100%'}}>
+      <KeyboardAvoidingView style={{height: '100%'}} behavior={'padding'} enabled>
         <StatusBar barStyle="dark-content"/>
         <Provider store={store}>
           <Header/>
@@ -47,7 +47,7 @@ export default class App extends React.Component {
             <BottomNavigation activeName={screenNames.NEWS}/>
           </NavigationContainer>
         </Provider>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 };

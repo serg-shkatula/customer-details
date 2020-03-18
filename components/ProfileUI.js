@@ -7,7 +7,6 @@ import {
   Image,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Button,
 } from 'react-native';
 import { colors, unit } from '../styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -30,7 +29,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 50,
-    // borderRadius: 50,
     paddingVertical: unit * 0.5,
     paddingHorizontal: unit,
     backgroundColor: 'white',
@@ -68,8 +66,6 @@ const styles = StyleSheet.create({
   },
   imageEditIconContainer: {
     backgroundColor: colors.WHITE,
-    // width: 50,
-    // height: 50,
     position: 'absolute',
     alignSelf: 'center',
     alignItems: 'center',
@@ -92,11 +88,8 @@ const styles = StyleSheet.create({
   },
   actionButtons: {
     padding: unit,
-    paddingBottom: 0,
     flexDirection: 'row',
-    // position: 'absolute',
     width: '100%',
-    // bottom: -unit * 3,
   },
 });
 
@@ -110,7 +103,7 @@ const EditIcon = ({style}) => (
   </View>
 );
 
-const ActionButtons = ({onCancelPress, onConfirmPress}) => (
+export const ActionButtons = ({onCancelPress, onConfirmPress}) => (
   <View style={styles.actionButtons}>
     <TouchableOpacity style={{flex: 1}} onPress={onCancelPress}>
       <Text style={{color: colors.RED, fontSize: 20}}>Cancel</Text>
@@ -136,19 +129,16 @@ export const StringItem = (props) => {
     children,
     editable,
     multiline,
-    noActionButtons,
     secureTextEntry,
     editMode,
     onEdit,
-    onEditCancel,
-    onEditConfirm,
   } = props;
 
   const [inputRef, setInputRef] = useState(undefined);
 
   if (editMode && children) {
     return (
-      <View style={[{zIndex: 10}]}>
+      <View style={[style, {zIndex: 10}]}>
         {Object.keys(children).map(key => (
           <DataItem
             key={key}
@@ -160,7 +150,6 @@ export const StringItem = (props) => {
             value={value[key]}
           />
         ))}
-        <ActionButtons onCancelPress={onEditCancel} onConfirmPress={onEditConfirm}/>
       </View>
     );
   }
@@ -185,22 +174,22 @@ export const StringItem = (props) => {
           editable={editable && !children}
           onFocus={() => onEdit(itemKey)}
           style={[!value && styles.itemTextFaded, styles.itemText]}
+          autoCorrect={false}
+          autoCapitalize={'none'}
+          spellCheck={false}
         >
           {value}
         </TextInput>
         {editable && !editMode && <EditIcon/>}
       </View>
-      {!noActionButtons && editMode && (
-        <ActionButtons onCancelPress={onEditCancel} onConfirmPress={onEditConfirm}/>
-      )}
     </TouchableOpacity>
   );
 };
 
 export const PasswordItem = (props) => {
-  const {editMode} = props
+  const {editMode} = props;
   return (
-    <StringItem {...props} secureTextEntry value={editMode?'':'............'}/>
+    <StringItem {...props} secureTextEntry value={editMode ? '' : '............'}/>
   );
 };
 

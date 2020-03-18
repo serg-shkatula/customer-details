@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StyleSheet, ScrollView, View, Text, KeyboardAvoidingView } from 'react-native';
 import { fetchUiTemplate } from '../api';
 import { colors, unit } from '../styles';
 import DataItem from '../components/DataItem';
 import { Fade } from '../components/ProfileUI';
-import { connect, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setEditingInfo } from '../state/actions';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -34,8 +35,19 @@ const styles = StyleSheet.create({
 const uiTemplate = fetchUiTemplate('profile');//TODO: handle globally
 
 function ProfileScreen () {
+  const dispatch = useDispatch();
   const userData = useSelector(state => state.user.data);
-  const [editingKey, setEditingKey] = useState(undefined);
+  const {editingInfo = {}} = useSelector(state => (state.data || {}));
+  const editingKey = editingInfo.key;
+
+  const setEditingKey = (key) => {
+    if (key) {
+      dispatch(setEditingInfo({key, scope: 'user'}));
+    } else {
+      dispatch(setEditingInfo(undefined));
+    }
+  };
+
   if (!userData) {
     return (
       <View style={styles.fetchingStateView}>
@@ -43,34 +55,27 @@ function ProfileScreen () {
       </View>
     );
   }
+
   return (
-    <KeyboardAvoidingView behavior={'position'} enabled>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.body}>
-          {Object.keys(uiTemplate).map((key) => {
-            const beingEdited = editingKey === key;
-            return (
-              <DataItem
-                key={key}
-                itemKey={key}
-                style={styles.item}
-                template={uiTemplate[key]}
-                value={userData[key]}
-                onEdit={setEditingKey}
-                onEditCancel={() => {
-                  setEditingKey(undefined);
-                }}
-                onEditConfirm={() => {
-                  setEditingKey(undefined);
-                }}
-                editMode={beingEdited}
-              />
-            );
-          })}
-          {editingKey && <Fade/>}
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    <ScrollView style={styles.scrollView}>
+      <View style={styles.body}>
+        {Object.keys(uiTemplate).map((key) => {
+          const beingEdited = editingKey === key;
+          return (
+            <DataItem
+              key={key}
+              itemKey={key}
+              style={styles.item}
+              template={uiTemplate[key]}
+              value={userData[key]}
+              onEdit={setEditingKey}
+              editMode={beingEdited}
+            />
+          );
+        })}
+        {editingKey && <Fade/>}
+      </View>
+    </ScrollView>
   );
 };
 

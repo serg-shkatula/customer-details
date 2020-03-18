@@ -1,4 +1,4 @@
-import { NAVIGATION_NAVIGATE, NAVIGATION_INIT, USER_DATA_UPDATE, USER_DATA_SET } from './actionTypes';
+import { NAVIGATION_NAVIGATE, NAVIGATION_INIT, USER_DATA_UPDATE, USER_DATA_SET, SET_EDITING_INFO } from './actionTypes';
 
 export function navigation (state = {}, action) {
   switch (action.type) {
@@ -31,6 +31,21 @@ export function user (state = {}, action) {
           [action.key]: action.value,
         },
       };
+  }
+  return state;
+}
+
+export function data (state = {}, action) {
+  switch (action.type) {
+    case SET_EDITING_INFO:
+      const resultingState = {
+        ...state,
+        editingInfo: {...action.info},
+      };
+      if (!action.info) {
+        delete resultingState.editingInfo;
+      }
+      return resultingState;
   }
   return state;
 }

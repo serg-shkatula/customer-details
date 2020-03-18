@@ -17,8 +17,6 @@ export default function DataItem (
     noActionButtons,
     value,
     onEdit,
-    onEditCancel,
-    onEditConfirm,
   },
 ) {
   const Component = componentsByType[template.type];
@@ -33,8 +31,6 @@ export default function DataItem (
       itemKey={itemKey}
       noActionButtons={noActionButtons}
       onEdit={onEdit}
-      onEditCancel={onEditCancel}
-      onEditConfirm={onEditConfirm}
 
       style={style}
       key={itemKey}

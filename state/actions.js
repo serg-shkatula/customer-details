@@ -1,4 +1,4 @@
-import { NAVIGATION_NAVIGATE, NAVIGATION_INIT, USER_DATA_SET } from './actionTypes';
+import { NAVIGATION_NAVIGATE, NAVIGATION_INIT, USER_DATA_SET, SET_EDITING_INFO } from './actionTypes';
 import { fetchData } from '../api';
 
 export function initNavigation(navigation) {
@@ -12,6 +12,13 @@ export function navigate (screenName) {
   return {
     type: NAVIGATION_NAVIGATE,
     screenName,
+  };
+}
+
+export function setEditingInfo (info) {
+  return {
+    type: SET_EDITING_INFO,
+    info,
   };
 }
 
