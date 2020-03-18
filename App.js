@@ -30,7 +30,7 @@ export default class App extends React.Component {
 
   render () {
     return (
-      <KeyboardAvoidingView behavior={'padding'} enabled style={{height: '100%'}}>
+      <View style={{height: '100%'}}>
         <StatusBar barStyle="dark-content"/>
         <Header/>
         <Provider store={store}>
@@ -47,7 +47,7 @@ export default class App extends React.Component {
             <BottomNavigation activeName={screenNames.NEWS}/>
           </NavigationContainer>
         </Provider>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 };

@@ -25,10 +25,11 @@ const _uiTemplatesById = {
     passportNumber: {
       type: 'string',
       name: 'Passport Number',
-      placeholder: 'Passport',
+      placeholder: 'Passport Number',
       validationPattern: '',
       isRequired: true,
       editable: true,
+      apiCall: 'editPassportNumber',
     },
     address: {
       type: 'address',
@@ -101,6 +102,32 @@ const _uiTemplatesById = {
       validationPattern: '',
       isRequired: true,
       editable: true,
+      children: {
+        currentPassword: {
+          type: 'password',
+          name: 'Current password',
+          placeholder: 'Current password',
+          validationPattern: '',
+          isRequired: true,
+          editable: true,
+        },
+        newPassword: {
+          type: 'password',
+          name: 'New Password',
+          placeholder: 'New password',
+          validationPattern: '',
+          isRequired: true,
+          editable: true,
+        },
+        confirmNewPassword: {
+          type: 'password',
+          name: 'Confirm',
+          placeholder: 'Confirm',
+          validationPattern: '',
+          isRequired: true,
+          editable: true,
+        },
+      }
     },
   },
 };

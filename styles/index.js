@@ -10,4 +10,6 @@ export const colors = {
   LIGHTEST_GREEN: '#DDEECC',
   RED: '#DD5566',
   BLACK_90: 'rgba(0,0,0,0.9)',
+  BLACK_80: 'rgba(0,0,0,0.8)',
+  LIGHT_GREY_90: 'rgba(200,200,200,0.9)',
 };

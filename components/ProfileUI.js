@@ -176,6 +176,7 @@ export const StringItem = (props) => {
       {!!value && <Text style={styles.itemCaption}>{name}</Text>}
       <View style={[styles.itemPlaceholder, editMode && styles.itemEditPlaceholder]}>
         <TextInput
+          placeholder={placeholder}
           keyboardType={keyboardTypeByItemType[type]}
           ref={(ref) => setInputRef(ref)}
           multiline={multiline}
@@ -184,7 +185,7 @@ export const StringItem = (props) => {
           onFocus={() => onEdit(itemKey)}
           style={[!value && styles.itemTextFaded, styles.itemText]}
         >
-          {value || placeholder}
+          {value}
         </TextInput>
         {editable && !editMode && <EditIcon/>}
       </View>
@@ -196,8 +197,9 @@ export const StringItem = (props) => {
 };
 
 export const PasswordItem = (props) => {
+  const {editMode} = props
   return (
-    <StringItem {...props} secureTextEntry value={'............'}/>
+    <StringItem {...props} secureTextEntry value={editMode?'':'............'}/>
   );
 };
 
