@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: colors.BLACK_80,
+    backgroundColor: colors.WHITE_80,
   },
   actionButtons: {
     padding: unit,

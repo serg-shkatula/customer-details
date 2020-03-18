@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { unit } from '../styles';
+import { useSelector } from 'react-redux';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -21,10 +22,11 @@ const styles = StyleSheet.create({
 });
 
 export default function Header () {
+  const title = useSelector(state => (state.navigation || {}).currentScreen);
   return (
     <SafeAreaView>
       <View style={styles.body}>
-        <Text style={styles.title}>Profile</Text>
+        <Text style={styles.title}>{title}</Text>
       </View>
     </SafeAreaView>
   );

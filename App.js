@@ -32,8 +32,8 @@ export default class App extends React.Component {
     return (
       <View style={{height: '100%'}}>
         <StatusBar barStyle="dark-content"/>
-        <Header/>
         <Provider store={store}>
+          <Header/>
           <NavigationContainer ref={ref => store.dispatch(initNavigation(ref))}>
             <Stack.Navigator
               screenOptions={{
